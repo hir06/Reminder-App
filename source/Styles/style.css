@@ -96,6 +96,29 @@ nav a {
       font-weight:bold;
       font-size:14px;
   }
+  .modal {
+    z-index: 10001 !important;
+    max-width: 500px !important;
+    background-color: rgb(47, 81, 106) !important;
+    color: white;
+}
+
+.modal .modal-footer {
+    padding: 0px !important;
+}
+#login-modal .btn[disabled] {
+    color: #904848 !important;
+}
+.modal .modal-footer a {
+    width: 50%;
+    margin: 0px !important;
+    height: 100%;
+    border: none;
+    border-radius: 0px;
+    box-shadow: none;
+    font-size: 22px;
+    line-height: 2.5em;
+}
   .about-me{
       margin-left:50px;
       margin-right:50px;

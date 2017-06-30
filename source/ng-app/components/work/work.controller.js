@@ -14,27 +14,28 @@
         _this.hover = false;
         _this.LayoutClass = 'grid';
         _this.loginUser=loginUser;
+        _this.getReminder=getReminder;
         _this.query = "";
         _this.data="";
         _this.login="";
         _this.token="";
         //_this.title = "Hello world";
        
-       function loginUser(){
-                       $http({
-                url:' https://frontend-challenge-2.herokuapp.com/rest-auth/login/',
-                method: "POST",
-                 data:{'username':'abc@example.com','email':'abc@example.com','password':'password'}
-            })
-            .success(function (data) {
-            _this.token=data.key;
-            console.log(_this.token);
-
-            }).error(function (data, status) {
-                console.log('error in /GetNOCListWithStageDetails: ' + JSON.stringify({ data: data }));
-                //console.log(data.exception);
-              //  $rootScope.redirectOnWSSOLogout(data, status);
-            });
+    //    function loginUser(){
+    //                    $http({
+    //              url:' https://frontend-challenge-2.herokuapp.com/rest-auth/login',
+    //             method: "POST",
+    //            // data:{'Authorization':'6412439c9a2966d30862f9b0686f0caecc0ea74a'}
+    //             data:{'username':'abc@example.com','password':'password'}
+    //         })
+    //         .success(function (data) {
+    //         _this.token=data.key;
+    //         console.log(_this.token);
+    //         getReminder(_this.token);
+    //         }).error(function (data, status) {
+    //             console.log('error in /GetNOCListWithStageDetails: ' + JSON.stringify({ data: data }));
+         
+    //         });
 
             //  _this.data="hiral,123456";
              
@@ -47,6 +48,42 @@
          
     //  _this.login =    workService.sendUserDetail(_this.data);
     //  console.log(_this.login)
+    //    }
+            
+       function loginUser(){
+                       $http({
+                url:' https://frontend-challenge-2.herokuapp.com/rest-auth/login/',
+                method: "POST",
+                 data:{'username':'abc@example.com','password':'password'}
+            })
+            .success(function (data) {
+            _this.token=data.key;
+
+            console.log(_this.token);
+            getReminder(_this.token);
+            }).error(function (data, status) {
+                console.log('error in /GetNOCListWithStageDetails: ' + JSON.stringify({ data: data }));
+                //console.log(data.exception);
+              //  $rootScope.redirectOnWSSOLogout(data, status);
+            });
+       }
+       function getReminder(token){
+    $http({
+                 url:' https://frontend-challenge-2.herokuapp.com/reminders/',
+                method: "GET",
+                contentType:false,
+               // data:{'Authorization':'6412439c9a2966d30862f9b0686f0caecc0ea74a'}
+                headers:{'Authorization':'Token '+ token +''}
+            })
+            .success(function (data) {
+       
+            console.log(data);
+         
+            }).error(function (data, status) {
+                console.log('error in /GetNOCListWithStageDetails: ' + JSON.stringify({ data: data }));
+         
+            });
+
        }
         function getData(paramString) {
             var deferred = $q.defer();
