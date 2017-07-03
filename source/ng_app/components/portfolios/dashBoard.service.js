@@ -8,7 +8,7 @@
 
         //call service to get JSON data
         var dashBoardService = {
-            fetchdashBoard: fetchdashBoard,
+           
             loginUser: loginUser,
             RegisterUser: RegisterUser,
             getReminder: getReminder,
@@ -163,26 +163,7 @@
             return def.promise;
         }
 
-        function fetchdashBoard(params) {
-
-            var def = $q.defer();
-
-            var req = {
-                method: 'GET',
-                url: 'que.html',
-
-
-            }
-            $http(req).then(function(response) {
-                def.resolve({
-                    dashBoard: response.data.websites
-                });
-            }, function(arg) {
-                def.reject(arg.data);
-            });
-
-            return def.promise;
-        }
+      
 
 
 

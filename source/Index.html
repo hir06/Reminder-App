@@ -2,7 +2,7 @@
 <html ng-app="QuizApp">
 
 <head>
-    <title>Quiz</title>
+    <title>Reminder</title>
     <!--Meta-->
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
     <meta http-equiv='Cache-control' content='no-cache' />
@@ -15,10 +15,9 @@
 
     <!--CSS-->
     <link href="css/common.css" rel="stylesheet" />
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">-->
-    <link href="css/materialize.min.css" rel="stylesheet" />
-
-    <!--Import Google Icon Font-->
+    <link rel="stylesheet" href="https://cdn.rawgit.com/chingyawhao/materialize-clockpicker/master/dist/css/materialize.clockpicker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+   
     <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
@@ -32,37 +31,29 @@
     <div class="row">
         <div class="col s12 m12 l12">
             <nav>
+             <span style="font-size:3em">Reminder</span>
                 <span ng-if="!qvm.login">
 
                 <a ng-click="qvm.openLogin()">Login</a><a ng-click="qvm.openRegister()">Register/</a></span>
                 <!--<div ng-if="qvm.login">-->
                 <ul ng-if="qvm.login">
-                    <span style="background-color:black;float:right">
-  <li>{{qvm.userName}}</li><i class="material-icons">play_for_work</i> <br/>
+                        <li class="logout right"> <a ng-click="qvm.logOut()">Logout</a> </li>
+                    <span class="right">
+                     <li>{{qvm.userName}}</li><br/>
                     </span>
 
-                    <li class="logout"> <a ng-click="qvm.logOut()">Logout</a> </li>
+                
                 </ul>
 
             </nav>
 
-            <!--<nav>
-                <div class="nav-wrapper">
-
-                    <ul class="right center">
-                        <li><a href="sass.html">Login/</a></li>
-                        <li><a href="badges.html">Register</a></li>
-                        <li>
-                    </ul>
-                </div>
-            </nav>-->
         </div>
     </div>
     <div class="page-wrap">
 
         <div class="portfolios-container" ng-if="qvm.login">
             <div class="portfolios-scroll">
-
+             <!--add reminder-->
                 <form class="col s12" name="addForm">
                     <div class="portfolio-item list" ng-class="qvm.LayoutClass">
 
@@ -79,15 +70,14 @@
                                     <label for="icon_prefix">Phone Number</label>
                                 </div>
                                 <div class="col s6 m2 l2 input-field">
-                                    <input type="date" class="datepicker">
-                                    <!--<input type="date" class="datepicker" class="validate" ng-model="qvm.reminderDate" required>-->
+                                    <input type="date" class="datepicker" ng-click="qvm.pickDate()" ng-model="qvm.reminderDate" required>
+                                 
                                 </div>
                                 <div class="col s6 m2 l2 input-field">
-                                    <!--<label for="timepicker_ampm_dark">Time am/pm ( dark theme )</label>-->
-                                    <input type="time" class="timepicker" class="validate" ng-model="qvm.reminderTime" required>
+                                 
+                                    <input type="time" class="timepicker" ng-model="qvm.reminderTime" ng-click="qvm.pickTime()" required> 
                                 </div>
-                                <!--<input id="icon_prefix" type="text" class="validate" ng-model="qvm.reminderDate" name="date" required>
-                                <label for="icon_prefix">Date & Time</label>-->
+                    
 
                                 <div class="col s6 m2 l2">
                                     <a class="waves-effect waves-light btn blue" ng-disabled="addForm.$invalid" ng-click="qvm.addReminder()"><i class="material-icons left">done</i>Add</a>
@@ -97,15 +87,14 @@
 
                     </div>
                 </form>
-
-
+                 <!--update reminder-->
                 <div class="portfolio-item list" ng-class="qvm.LayoutClass">
 
                     <div class="portfolio-texts">
 
                         <h5>Upcoming Reminders</h5>
 
-                        <div class="row update" ng-repeat="rem in qvm.data track by $index">
+                        <div class="row update" ng-repeat="rem in qvm.future track by $index">
 
                             <div class="col s6 m4 l4">
                                 <input type="text" ng-model=rem.message ng-if="qvm.editable[rem.id]" />
@@ -116,14 +105,14 @@
                                 <input type="text" ng-model=rem.phone_number ng-if="qvm.editable[rem.id]" />
                             </div>
                             <div class="col s6 m2 l2">
-                                <span ng-if="!qvm.editable[rem.id]" class="dateLabel">{{qvm.FormatDate(rem.scheduled_datetime)}}</span>
-                                <input type="text" class="datepicker" ng-if="qvm.editable[rem.id]" ng-model=qvm.newDate[rem.id]>
-
+                                <span ng-if="!qvm.editable[rem.id]" class="dateLabel">{{rem.scheduled_datetime}}</span>
+                                <input type="text" class="datepicker" ng-if="qvm.editable[rem.id]" ng-model=qvm.newDate[rem.id] ng-click="qvm.pickDate()">
+ 
                             </div>
                             <div class="col s6 m2 l2">
-                                <input type="text" class="timepicker" ng-if="qvm.editable[rem.id]" ng-model=qvm.newTime[rem.id]>
+                                <input type="text" class="timepicker" ng-if="qvm.editable[rem.id]" ng-model=qvm.newTime[rem.id] ng-click="qvm.pickTime()">
 
-                            </div>
+                         </div>
                             <div class="col s6 m2 l2">
                                 <a class="waves-effect waves-light btn green" ng-if="!qvm.editable[rem.id]" ng-click="qvm.editReminder(rem)"><i class="material-icons left">mode_edit</i></a>
                                 <a class="waves-effect waves-light btn green" ng-if="qvm.editable[rem.id]" ng-click="qvm.saveReminder(rem)"><i class="material-icons left">done</i></a>
@@ -137,11 +126,51 @@
                     </div>
 
                 </div>
+
+                <!--past reminders-->
+                   <div class="portfolio-item list" ng-class="qvm.LayoutClass">
+
+                    <div class="portfolio-texts">
+
+                        <h5>Past Reminders</h5>
+                   
+                        <div class="row update" ng-repeat="rem in qvm.past track by $index">
+
+                            <div class="col s6 m4 l4">
+                                <input type="text" ng-model=rem.message ng-if="qvm.editable[rem.id]" />
+                                <span ng-if="!qvm.editable[rem.id]"> {{rem.message}} </span>
+
+                            </div>
+                            <div class="col s6 m2 l2">
+                                <input type="text" ng-model=rem.phone_number ng-if="qvm.editable[rem.id]" />
+                            </div>
+                            <div class="col s6 m2 l2">
+                                <span ng-if="!qvm.editable[rem.id]" class="dateLabel">{{rem.scheduled_datetime}}</span>
+                                <input type="text" class="datepicker" ng-if="qvm.editable[rem.id]" ng-model=qvm.newDate[rem.id] ng-click="qvm.pickDate()">
+ 
+                            </div>
+                            <div class="col s6 m2 l2">
+                                <input type="text" class="timepicker" ng-if="qvm.editable[rem.id]" ng-model=qvm.newTime[rem.id] ng-click="qvm.pickTime()">
+
+                         </div>
+                            <div class="col s6 m2 l2">
+                                <a class="waves-effect waves-light btn green" ng-if="!qvm.editable[rem.id]" ng-click="qvm.editReminder(rem)"><i class="material-icons left">mode_edit</i></a>
+                                <a class="waves-effect waves-light btn green" ng-if="qvm.editable[rem.id]" ng-click="qvm.saveReminder(rem)"><i class="material-icons left">done</i></a>
+                                <a class="waves-effect waves-light btn blue" ng-if="qvm.editable[rem.id]" ng-click="qvm.cancelReminder(rem)"><i class="material-icons left">arrow_back</i></a>
+
+                
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
         <div>
-            <!--login Modal -->
+            <!--login and register Modal -->
             <div id="onepush-modal" class="modal">
                 <div class="modal-content">
                     <h4>{{qvm.buttonText}}</h4>
@@ -161,7 +190,7 @@
                                     <p ng-show="loginForm.userEmail.$invalid && !loginForm.userEmail.$pristine" class="help-block">This field is required!.</p>
                                 </div>
                                 <div class="input-field col s12">
-                                    <i class="material-icons prefix">stay_current_portrait</i>
+                                    <i class="material-icons prefix">label_outline</i>
                                     <input id="icon_prefix" type="password" class="validate" ng-model="qvm.userPwd" name="userPwd" required>
                                     <label for="icon_prefix">Password:</label>
                                     <p ng-show="loginForm.userPwd.$invalid && !loginForm.userPwd.$pristine" class="help-block">Please enter password</p>
@@ -189,27 +218,11 @@
 
         </div>
     </div>
+ 
 
 
 
-
-    <!--<footer class="site-footer">
-      
-      
-      
-      
-      
-        <div class="content">
-            <span class="copyright"> © </span><span>
-                2017 <a href="https://github.com/hir06" target="_blank">
-                 HiralParmar
-                </a>
-                Media, Inc. All rights unfortunately not reserved.
-            </span>
-        </div>
-    </footer>-->
-    <!--loader to be used while calling http service to get json data-->
-    <!--<div ng-show="loaderVisibility" ng-include="'/ng_app/common/Templates/loader.html'"></div>-->
+   <!--Loader-->
     <div ng-show="loaderVisibility">
         <div id="LoaderAnime">
             <div>
@@ -266,15 +279,14 @@
             </div>
         </div>
     </div>
-
-
-
-
+  
     <!--JS-->
-    <script src="js_setup/jquery-2.1.1.min.js"></script>
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+   <script src="https://cdn.rawgit.com/chingyawhao/materialize-clockpicker/master/dist/js/materialize.clockpicker.js"></script>
+    <script src="js_setup/materialize.min.js"></script>
     <script src="js_setup/angular.js"></script>
     <script src="js_setup/angular-route.js"></script>
 
@@ -283,18 +295,13 @@
     <script src="ng_app/common/AppService.js"></script>
     <script src="ng_app/common/Constants.js"></script>
 
-    <!--OnePush-->
+    <!--dashboard-->
     <script src="ng_app/components/portfolios/dashBoard.service.js"></script>
     <script src="ng_app/components/portfolios/dashBoard.controller.js"></script>
     <script src="ng_app/components/portfolios/dashBoard.module.js"></script>
 
-    <!--graph-->
-
-    <!--<script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/data.js"></script>-->
-    <script src="js_setup/highcharts.js"></script>
-    <script src="js_setup/data.js"></script>
-
+ 
+ 
 </body>
 
 
