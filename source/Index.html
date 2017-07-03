@@ -1,126 +1,299 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html ng-app="QuizApp">
+
 <head>
-  
-    <title>Hiral Parmar</title>
-    <script>
-        //$(document).ready(function () {
+    <title>Quiz</title>
+    <!--Meta-->
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+    <meta http-equiv='Cache-control' content='no-cache' />
+    <meta http-equiv='Expires' content='-1' />
+    <meta http-equiv='pragma' content='no-cache' />
 
-           
-        //    var intervalid = "";
 
-        //    intervalid = setInterval("letItRain()",10);
-              
-              
-        //        letItRain();
-        //});
-        //test commit
-        function letItRain() {
-            var x = Math.floor(Math.random() * parseInt($('body').css('width'))) + 1;
-            $('.rain').append("<div class='drop' style='left: " + x + "px;'></div>");
-            $('.drop').animate({
-                top: "600px",
-                left: "+=200px"
-            }, 1000, function () {
-                $(this).remove();
-            });
-        }
-        function docLoaded() {
-            var movementStrength = 25;
-            var height = movementStrength / window.innerHeight;
-            var width = movementStrength / window.innerWidth;
-            document.body.addEventListener('mousemove', function (e) {
-                var pageX = e.pageX - (window.innerWidth / 2);
-                var pageY = e.pageY - (window.innerHeight / 2);
-                var newvalueX = width * pageX * -1 - 25;
-                var newvalueY = height * pageY * -1 - 50;
-                var element = document.getElementById('top-image');
-                element.style.backgroundPosition = newvalueX + "px " + newvalueY + "px";
+    <!--FAVICON-->
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 
-            }, false);
+    <!--CSS-->
+    <link href="css/common.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
 
-        }
-    </script>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 </head>
-<body ng-app="myApp" ng-controller="workController" ><!--onload="docLoaded()"-->
-    <!--onload="docLoaded()"-->
 
-    <div id="top-image"></div>
-    <!--<div class="containerParent" style="">--><!--position: fixed;width: 100%;height: 100%;z-index: 0;-->
-        <div id="container">
-<div class="row">
-    <div class="col s12 m12 l12">
-        <nav>
-            <div class="nav-wrapper">
-              
-                <ul class="right center">
-                    <li><a href="sass.html">Sass</a></li>
-                    <li><a href="badges.html">Components</a></li>
-                 
+<body ng-controller="dashBoardController as qvm">
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <nav>
+                <span ng-if="!qvm.login">
+
+                <a ng-click="qvm.openLogin()">Login</a><a ng-click="qvm.openRegister()">Register/</a></span>
+                <!--<div ng-if="qvm.login">-->
+                <ul ng-if="qvm.login">
+                    <span style="background-color:black;float:right">
+  <li>{{qvm.userName}}</li><i class="material-icons">play_for_work</i> <br/>
+                    </span>
+
+                    <li class="logout"> <a ng-click="qvm.logOut()">Logout</a> </li>
                 </ul>
-            </div>
-        </nav>
+                <!--
+                    <span>{{qvm.userName}}</span>
+                    <a ng-click="qvm.logOut()">Logout</a>-->
+                <!--</div>-->
+            </nav>
+
+            <!--<nav>
+                <div class="nav-wrapper">
+
+                    <ul class="right center">
+                        <li><a href="sass.html">Login/</a></li>
+                        <li><a href="badges.html">Register</a></li>
+                        <li>
+                    </ul>
+                </div>
+            </nav>-->
+        </div>
     </div>
-</div>
+    <div class="page-wrap">
 
-            <!--<div class="row">
-                <div class="col l2">&nbsp;</div>
-                <div class="col s12 m12 l8">
-                    <nav style="background-color:black">
-                        <div>
+        <div class="portfolios-container" ng-if="qvm.login">
+            <div class="portfolios-scroll">
+
+                <form class="col s12" name="addForm">
+                    <div class="portfolio-item list" ng-class="qvm.LayoutClass">
+
+                        <div class="portfolio-texts">
+                            <h5>Add Reminder</h5>
+
+                            <div class="Add row">
+                                <div class="col s6 m4 l4 input-field">
+                                    <input id="icon_prefix" type="text" class="validate" ng-model="qvm.reminderMsg" name="msg" required>
+                                    <label for="icon_prefix">Add Reminder Message</label>
+                                </div>
+                                <div class="col s6 m2 l2 input-field">
+                                    <input id="icon_prefix" type="text" class="validate" ng-model="qvm.reminderPhn" name="phone" required>
+                                    <label for="icon_prefix">Phone Number</label>
+                                </div>
+                                <div class="col s6 m2 l2 input-field">
+                                    <input type="date" class="datepicker">
+                                    <!--<input type="date" class="datepicker" class="validate" ng-model="qvm.reminderDate" required>-->
+                                </div>
+                                <div class="col s6 m2 l2 input-field">
+                                    <!--<label for="timepicker_ampm_dark">Time am/pm ( dark theme )</label>-->
+                                    <input type="time" class="timepicker" class="validate" ng-model="qvm.reminderTime" required>
+                                </div>
+                                <!--<input id="icon_prefix" type="text" class="validate" ng-model="qvm.reminderDate" name="date" required>
+                                <label for="icon_prefix">Date & Time</label>-->
+
+                                <div class="col s6 m2 l2">
+                                    <a class="waves-effect waves-light btn blue" ng-disabled="addForm.$invalid" ng-click="qvm.addReminder()"><i class="material-icons left">done</i>Add</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
 
 
-                            <a href="/#/DashBoard" class="menu">Works</a>
-                            <a href="/#/about" class="menu">About Me</a>&nbsp;&nbsp;
+                <div class="portfolio-item list" ng-class="qvm.LayoutClass">
 
+                    <div class="portfolio-texts">
 
+                        <h5>Upcoming Reminders</h5>
 
+                        <div class="row update" ng-repeat="rem in qvm.data track by $index">
+
+                            <div class="col s6 m4 l4">
+                                <input type="text" ng-model=rem.message ng-if="qvm.editable[rem.id]" />
+                                <span ng-if="!qvm.editable[rem.id]"> {{rem.message}} </span>
+
+                            </div>
+                            <div class="col s6 m2 l2">
+                                <input type="text" ng-model=rem.phone_number ng-if="qvm.editable[rem.id]" />
+                            </div>
+                            <div class="col s6 m2 l2">
+                                <span ng-if="!qvm.editable[rem.id]" class="dateLabel">{{qvm.FormatDate(rem.scheduled_datetime)}}</span>
+                                <input type="text" class="datepicker" ng-if="qvm.editable[rem.id]" ng-model=qvm.newDate[rem.id]>
+
+                            </div>
+                            <div class="col s6 m2 l2">
+                                <input type="text" class="timepicker" ng-if="qvm.editable[rem.id]" ng-model=qvm.newTime[rem.id]>
+
+                            </div>
+                            <div class="col s6 m2 l2">
+                                <a class="waves-effect waves-light btn green" ng-if="!qvm.editable[rem.id]" ng-click="qvm.editReminder(rem)"><i class="material-icons left">mode_edit</i></a>
+                                <a class="waves-effect waves-light btn green" ng-if="qvm.editable[rem.id]" ng-click="qvm.saveReminder(rem)"><i class="material-icons left">done</i></a>
+                                <a class="waves-effect waves-light btn blue" ng-if="qvm.editable[rem.id]" ng-click="qvm.cancelReminder(rem)"><i class="material-icons left">arrow_back</i></a>
+
+                                <a class="waves-effect waves-light btn red" ng-if="!qvm.editable[rem.id]" ng-click="qvm.deleteReminder(rem)"><i class="material-icons left">delete</i></a>
+
+                            </div>
 
                         </div>
-                    </nav>
+                    </div>
+
                 </div>
-
-
-            </div>-->
-            <div class="main">
-                <div ng-view></div>
             </div>
-          
+        </div>
 
+        <div>
+            <!--login Modal -->
+            <div id="onepush-modal" class="modal">
+                <div class="modal-content">
+                    <h4>{{qvm.buttonText}}</h4>
+                    <div class="row">
+                        <form class="col s12" name="loginForm">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">class</i>
+                                    <input id="icon_prefix" type="text" class="validate" ng-model="qvm.userName" name="userName" required>
+                                    <label for="icon_prefix">Name</label>
+                                    <p ng-show="loginForm.userName.$invalid && !loginForm.userName.$pristine" class="help-block">Your name is required!.</p>
+                                </div>
 
-            <script src="../Scripts/jquery-3.1.1.min.js"></script>
-            <script src="../Scripts/materialize/materialize.min.js"></script>
-            <link href="../content/materialize/css/materialize.min.css" rel="stylesheet" />
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">stay_current_portrait</i>
+                                    <input id="icon_prefix" type="password" class="validate" ng-model="qvm.userPwd" name="userPwd" required>
+                                    <label for="icon_prefix">Password:</label>
+                                    <p ng-show="loginForm.userPwd.$invalid && !loginForm.userPwd.$pristine" class="help-block">Please enter password</p>
+                                </div>
+                                <div class="input-field col s12" ng-if="qvm.isRegister">
+                                    <i class="material-icons prefix">email</i>
+                                    <input id="icon_prefix" type="password" class="validate" ng-model="qvm.userEmail" name="userEmail" required>
+                                    <label for="icon_prefix">Confirm Password</label>
+                                    <p ng-show="loginForm.userEmail.$invalid && !loginForm.userEmail.$pristine || qvm.userEmail != qvm.userPwd" class="help-block">Please enter Correct passowrd.</p>
+                                </div>
+                                <div class="input-field col s12" ng-if="qvm.loginError">
+                                    Please provide valid credentials
 
-            <script src="../Scripts/angular.min.js"></script>
-            <script src="../Scripts/angular-route.min.js"></script>
-            <script src="https://code.createjs.com/tweenjs-0.6.2.min.js"></script>
-            <link href="../Styles/style.css" rel="stylesheet" />
-            <link href="../Styles/weather.css" rel="stylesheet">
-
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-            <script src="ng-app/myApp.js"></script>
-            <script src="ng-app/Shared/constants.js"></script>
-            <script src="content/myAppService.js"></script>
-
-            <script src="ng-app/components/work/work.service.js"></script>
-            <script src="ng-app/components/work/work.controller.js"></script>
-            <script src="ng-app/components/work/work.module.js"></script>
-
-            <script src="ng-app/components/workDetail/workDetail.service.js"></script>
-            <script src="ng-app/components/workDetail/workDetail.controller.js"></script>
-            <script src="ng-app/components/workDetail/workDetail.module.js"></script>
-
-            <script src="ng-app/components/me/me.service.js"></script>
-            <script src="ng-app/components/me/me.controller.js"></script>
-            <script src="ng-app/components/me/me.module.js"></script>
-
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="waves-effect waves-light btn blue" ng-disabled="loginForm.$invalid" ng-click="qvm.loginUser()"><i class="material-icons left">done</i>{{qvm.buttonText}}</a>
+                    <a class="modal-action modal-close waves-effect waves-light btn red"><i class="material-icons left">arrow_back</i>Cancel </a>
+                </div>
+            </div>
 
 
         </div>
-   
+    </div>
+
+
+
+
+    <!--<footer class="site-footer">
+      
+      
+      
+      
+      
+        <div class="content">
+            <span class="copyright"> © </span><span>
+                2017 <a href="https://github.com/hir06" target="_blank">
+                 HiralParmar
+                </a>
+                Media, Inc. All rights unfortunately not reserved.
+            </span>
+        </div>
+    </footer>-->
+    <!--loader to be used while calling http service to get json data-->
+    <!--<div ng-show="loaderVisibility" ng-include="'/ng_app/common/Templates/loader.html'"></div>-->
+    <div ng-show="loaderVisibility">
+        <div id="LoaderAnime">
+            <div>
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <span>Just a moment...</span>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!--JS-->
+    <!--<script src="js_setup/jquery-2.1.1.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+    <script src="js_setup/angular.js"></script>
+    <script src="js_setup/angular-route.js"></script>
+
+
+    <script src="ng_app/App.js"></script>
+    <script src="ng_app/common/AppService.js"></script>
+    <script src="ng_app/common/Constants.js"></script>
+
+    <!--OnePush-->
+    <script src="ng_app/components/portfolios/dashBoard.service.js"></script>
+    <script src="ng_app/components/portfolios/dashBoard.controller.js"></script>
+    <script src="ng_app/components/portfolios/dashBoard.module.js"></script>
+
+    <!--graph-->
+
+    <!--<script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>-->
+    <script src="js_setup/highcharts.js"></script>
+    <script src="js_setup/data.js"></script>
+
 </body>
 
+
 </html>
-    
