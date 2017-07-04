@@ -145,7 +145,7 @@
                     });
             } else {
                 AppService.ShowLoader();
-                var promiseObj = dashBoardService.RegisterUser(_this.userName, _this.userPwd, _this.userEmail);
+                var promiseObj = dashBoardService.RegisterUser(_this.userEmail, _this.userPwd, _this.userCnfPwd);
                 promiseObj.then(function success(data) {
                         _this.login = true;
                         _this.token = data.key;
@@ -156,7 +156,7 @@
                         getReminder();
                     },
                     function error() {
-                        Materialize.toast("Couldn't login", 4000, "red");
+                        Materialize.toast("User corresponding to email already exist", 4000, "red ");
                         AppService.HideLoader();
                         $('#onepush-modal').modal('open');
 

@@ -42,14 +42,14 @@
             return def.promise;
         }
 
-        function RegisterUser(userName, userPwd, userEmail) {
+        function RegisterUser(userEmail, userPwd, userCnfPwd) {
             var def = $q.defer();
 
             var req = {
 
                 url: ' https://frontend-challenge-2.herokuapp.com/register/',
                 method: "POST",
-                data: { 'username': userName, 'password': userPwd, 'email': userEmail }
+                data: { 'email': userEmail, 'password': userPwd, 'confirm_password': userCnfPwd }
 
 
             }

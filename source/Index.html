@@ -15,8 +15,8 @@
 
     <!--CSS-->
     <link href="css/common.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
-
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">-->
+    <link href="css/materialize.min.css" rel="stylesheet" />
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
@@ -43,10 +43,7 @@
 
                     <li class="logout"> <a ng-click="qvm.logOut()">Logout</a> </li>
                 </ul>
-                <!--
-                    <span>{{qvm.userName}}</span>
-                    <a ng-click="qvm.logOut()">Logout</a>-->
-                <!--</div>-->
+
             </nav>
 
             <!--<nav>
@@ -151,13 +148,18 @@
                     <div class="row">
                         <form class="col s12" name="loginForm">
                             <div class="row">
-                                <div class="input-field col s12">
+                                <div class="input-field col s12" ng-if="!qvm.isRegister">
                                     <i class="material-icons prefix">class</i>
                                     <input id="icon_prefix" type="text" class="validate" ng-model="qvm.userName" name="userName" required>
                                     <label for="icon_prefix">Name</label>
-                                    <p ng-show="loginForm.userName.$invalid && !loginForm.userName.$pristine" class="help-block">Your name is required!.</p>
+                                    <p ng-show="loginForm.userName.$invalid && !loginForm.userName.$pristine" class="help-block">This field is required!.</p>
                                 </div>
-
+                                <div class="input-field col s12" ng-if="qvm.isRegister">
+                                    <i class="material-icons prefix">email</i>
+                                    <input id="icon_prefix" type="email" class="validate" ng-model="qvm.userEmail" name="userEmail" required>
+                                    <label for="icon_prefix">Email</label>
+                                    <p ng-show="loginForm.userEmail.$invalid && !loginForm.userEmail.$pristine" class="help-block">This field is required!.</p>
+                                </div>
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">stay_current_portrait</i>
                                     <input id="icon_prefix" type="password" class="validate" ng-model="qvm.userPwd" name="userPwd" required>
@@ -165,10 +167,10 @@
                                     <p ng-show="loginForm.userPwd.$invalid && !loginForm.userPwd.$pristine" class="help-block">Please enter password</p>
                                 </div>
                                 <div class="input-field col s12" ng-if="qvm.isRegister">
-                                    <i class="material-icons prefix">email</i>
-                                    <input id="icon_prefix" type="password" class="validate" ng-model="qvm.userEmail" name="userEmail" required>
+                                    <i class="material-icons prefix">done</i>
+                                    <input id="icon_prefix" type="password" class="validate" ng-model="qvm.userCnfPwd" name="userCnfPwd" required>
                                     <label for="icon_prefix">Confirm Password</label>
-                                    <p ng-show="loginForm.userEmail.$invalid && !loginForm.userEmail.$pristine || qvm.userEmail != qvm.userPwd" class="help-block">Please enter Correct passowrd.</p>
+                                    <p ng-show="loginForm.userCnfPwd.$invalid && !loginForm.userCnfPwd.$pristine || qvm.userCnfPwd != qvm.userPwd" class="help-block">Please enter Correct passowrd.</p>
                                 </div>
                                 <div class="input-field col s12" ng-if="qvm.loginError">
                                     Please provide valid credentials
@@ -269,8 +271,8 @@
 
 
     <!--JS-->
-    <!--<script src="js_setup/jquery-2.1.1.min.js"></script>-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js_setup/jquery-2.1.1.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
     <script src="js_setup/angular.js"></script>
